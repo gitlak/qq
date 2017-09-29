@@ -1,0 +1,98 @@
+#基数排序
+
+import math
+ 
+def sort(a, radix=10):
+    """a为整数列表， radix为基数"""
+    K=len(str(max(a)))#最大数的位数
+    #K = int(math.ceil(math.log(max(a), radix))) # 用K位数可表示任意整数
+    bucket = [[] for i in range(radix)] # 建立10个空桶
+    for i in range(1, K+1): # K次循环
+        for val in a:
+            bucket[val%(radix**i)/(radix**(i-1))].append(val) # 析取整数第K位数字 （从低到高）
+        del a[:]
+        for each in bucket:
+            a.extend(each) # 桶合并
+        bucket = [[] for i in range(radix)]
+    return a
+
+
+arr=[23,16,13,100,45,20,5,1,35,7,12]
+print arr
+print sort(arr)
+
+"""
+输出：
+[23, 16, 13, 100，45, 20, 5, 1, 35, 7, 12]
+[1, 5, 7, 12, 13, 16, 20, 23, 35, 45，100]
+"""
+
+
+#冒泡排序
+print '**'*20
+print '冒泡排序：'
+arr=[23,16,13,100,45,20,5,1,35,7,12]
+print arr
+for i in range(len(arr)):
+	for j in range(len(arr)-i-1):
+		if arr[j]>arr[j+1]:
+			arr[j],arr[j+1]=arr[j+1],arr[j]
+print arr
+
+#快速排序
+print '**'*20
+print '快速排序：'
+arr=[23,16,13,100,45,20,5,1,35,7,12]
+print arr
+
+def quicksort(a,l,r):
+	if l<r:
+		k=a[l]
+		i=l
+		j=r
+		while i<j:
+			while i<j and a[j]>=k:
+				j-=1
+			if i<j:
+				a[i]=a[j]
+				i+=1
+			while i<j and a[i]<=k:
+				i+=1
+			if i<j:
+				a[j]=a[i]
+				j-=1
+		a[i]=k#  i,j相遇
+		quicksort(a,l,i-1)
+		quicksort(a,i+1,r)
+	return a
+print quicksort(arr,0,len(arr)-1)
+
+#选择排序
+print '**'*20
+print '选择排序：'
+arr=[23,16,13,100,45,20,5,1,35,7,12]
+print arr
+
+for i in range(len(arr)):
+	min = i
+	for j in range(i+1,len(arr)):
+		if arr[j]<arr[min]:
+			min = j
+	arr[i],arr[min]=arr[min],arr[i]
+print arr
+
+#插入排序
+print '**'*20
+print '插入排序：'
+arr=[23,16,13,100,45,20,5,1,35,7,12]
+print arr
+
+for i in range(1,len(arr)):
+	j=i
+	val = arr[i]
+	while j>0 and val < arr[j-1]:
+		arr[j]=arr[j-1]
+		j-=1
+	arr[j]=val
+print arr
+
